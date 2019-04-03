@@ -1,67 +1,59 @@
 <template>
+	<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-	<div>
-<nav class="nav">
-					Navbar
-					<div class="dropdown"style="justify-self: end">
-						<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Dropdown button
-						</button>
-						<div class="dropdown-menu">
-							<form class="px-4 py-3">
-								<div class="form-group">
-									<label for="exampleDropdownFormEmail1">Email address</label>
-									<input type="text" class="form-control" id="" placeholder="Username" v-model="user.email" >
-								</div>
-								<div class="form-group">
-									<label for="exampleDropdownFormPassword1">Password</label>
-									<input type="password" class="form-control" id="" placeholder="Password" v-model="user.password" >
-								</div>
-								<div class="form-check">
-									<input type="checkbox" class="form-check-input" id="dropdownCheck">
-									<label class="form-check-label" for="dropdownCheck">
-										Remember me
-									</label>
-								</div>
-								<button type="submit" class="btn btn-primary" @click.prevent="submitLogin">Sign in</button>
-							</form>
-							<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">New around here? Sign up</a>
-								<a class="dropdown-item" href="#">Forgot password?</a>
-							</div>
-					</div>
-					<router-link to="/users/user">Go to Foo</router-link>
-					<router-link to="/">Go to Bar</router-link>
-					<div class="search">
-						<input class="form-control" placeholder="Search" aria-label="Search">
-						<button class="btn btn-sm btn-outline-success" type="submit">Search</button>
-					</div>
-			</nav>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<transition name="fade">
+			<div v-if="state.showSettings" class="ml-auto">
+				<a href="" class="icon btn btn-secondary" @click.prevent="setFontSize(1)">A+</a>
+				<a href="" class="icon btn btn-secondary ml-1"  @click.prevent="setFontSize(-1)">A- </a>
 			</div>
+			</transition>
+			<!-- <a href="" class="ml&#45;auto" @click.prevent="state.showSettings = !state.showSettings">Settings</a> -->
+		</div>
+	</nav>
 </template>
 
 <script>
+	import { store } from '../store.js'
+
 	export default {
-data: function() {
-		return {
-			user: {
-				email: "fasd@fds.fadsf",
-				password: ""
+		data: function() {
+			return {
+				user: {
+					email: "fasd@fds.fadsf",
+					password: "",
+					state: store.state
+				}
+			};
+		},
+
+		computed: {
+		},
+
+		methods:{
+			submitLogin() {
+				this.$emit("login-submit", this.user);
+			},
+
+			setFontSize(size) {
+				let fontSize = this.state.settings.fontSize + 20 * size;
+				if (fontSize > store.config.fontSizeMax) {
+					fontSize = store.config.fontSizeMax;
+				}
+				if (fontSize < store.config.fontSizeMin) {
+					fontSize = store.config.fontSizeMin;
+				}
+
+				this.state.settings.fontSize = fontSize;
 			}
-		};
-	},
+		},
 
-	computed: {
-	},
-
-	methods:{
-		submitLogin() {
-			this.$emit("login-submit", this.user);
+		mounted: function() {
 		}
-	},
-
-	mounted: function() {
-	}
 	}
 </script>
 
@@ -69,4 +61,18 @@ data: function() {
 .dropdown {
 	margin-left: auto;
 }
+.icon {
+	font-weight: bold;
+	/* font-size: 1.2em; */
+}
+.icon:hover {
+	text-decoration: none;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .20s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+				
 </style>

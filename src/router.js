@@ -1,8 +1,31 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Users from './components/Users.vue'
+import Timer from './components/Timer.vue';
 
 Vue.use(Router)
+
+// const routes = [
+// 	{
+// 		path: "/user", 
+// 		components: {
+// 			default: users,
+// 			a: navside,
+// 			b: user
+// 		}
+// 	},
+// 	{
+// 		path: "/users", 
+// 		component: usersComponent,
+// 		children: [{
+// 			path: 'user',
+// 			component: user
+// 		}]
+// 	},
+// 	{
+// 		path: "/item", 
+// 		component: item 
+// 	}
+// ];
 
 export default new Router({
   mode: 'history',
@@ -10,8 +33,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'users',
-      component: Users
+      name: 'timer',
+      component: Timer
     },
     {
       path: '/',

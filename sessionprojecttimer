@@ -1,0 +1,139 @@
+let SessionLoad = 1
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+cd ~\Desktop\projects\projecttimer
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+badd +26 src\store.js
+badd +0 src\sound.js
+badd +0 src\router.js
+badd +0 src\main.js
+badd +0 src\components\Timer.vue
+badd +0 src\components\Settings.vue
+badd +0 src\components\Navbar.vue
+badd +0 src\App.vue
+argglobal
+silent! argdel *
+$argadd src\store.js
+$argadd src\App.vue
+$argadd src\components\Navbar.vue
+$argadd src\components\Settings.vue
+$argadd src\components\Timer.vue
+$argadd src\main.js
+$argadd src\router.js
+$argadd src\sound.js
+edit src\components\Timer.vue
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+wincmd _ | wincmd |
+split
+wincmd _ | wincmd |
+split
+2wincmd k
+wincmd w
+wincmd w
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 119 + 120) / 240)
+exe '2resize ' . ((&lines * 42 + 35) / 70)
+exe 'vert 2resize ' . ((&columns * 120 + 120) / 240)
+exe '3resize ' . ((&lines * 14 + 35) / 70)
+exe 'vert 3resize ' . ((&columns * 120 + 120) / 240)
+exe '4resize ' . ((&lines * 10 + 35) / 70)
+exe 'vert 4resize ' . ((&columns * 120 + 120) / 240)
+argglobal
+if bufexists("src\components\Timer.vue") | buffer src\components\Timer.vue | else | edit src\components\Timer.vue | endif
+setlocal fdm=marker
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 159 - ((51 * winheight(0) + 34) / 68)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+159
+normal! 019|
+lcd ~\Desktop\projects\projecttimer\src\components
+wincmd w
+argglobal
+if bufexists("~\Desktop\projects\projecttimer\src\App.vue") | buffer ~\Desktop\projects\projecttimer\src\App.vue | else | edit ~\Desktop\projects\projecttimer\src\App.vue | endif
+setlocal fdm=marker
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 93 - ((28 * winheight(0) + 21) / 42)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+93
+normal! 042|
+lcd ~\Desktop\projects\projecttimer\src
+wincmd w
+argglobal
+if bufexists("~\Desktop\projects\projecttimer\src\store.js") | buffer ~\Desktop\projects\projecttimer\src\store.js | else | edit ~\Desktop\projects\projecttimer\src\store.js | endif
+setlocal fdm=marker
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 8 - ((1 * winheight(0) + 7) / 14)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+8
+normal! 028|
+lcd ~\Desktop\projects\projecttimer\src
+wincmd w
+argglobal
+enew
+setlocal fdm=marker
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+lcd ~\Desktop\projects\projecttimer\src
+wincmd w
+exe 'vert 1resize ' . ((&columns * 119 + 120) / 240)
+exe '2resize ' . ((&lines * 42 + 35) / 70)
+exe 'vert 2resize ' . ((&columns * 120 + 120) / 240)
+exe '3resize ' . ((&lines * 14 + 35) / 70)
+exe 'vert 3resize ' . ((&columns * 120 + 120) / 240)
+exe '4resize ' . ((&lines * 10 + 35) / 70)
+exe 'vert 4resize ' . ((&columns * 120 + 120) / 240)
+tabnext 1
+if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=8 winwidth=12 winminheight=8 winminwidth=12 shortmess=filnxtToOF
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :
