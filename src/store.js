@@ -7,7 +7,6 @@ export const store = {
 	},
 	state: {
 		showSettings: false,
-		settingsFontSize: 'medium',
 		settings: {
 			onZeroAction: 0,
 			soundIndex: 0,
@@ -24,8 +23,8 @@ export const store = {
 		},
 		timeRestartAfter: {
 			hours: 0,
-			minutes: 5,
-			seconds: 0
+			minutes: 0,
+			seconds: 2
 		}
 	}
 };

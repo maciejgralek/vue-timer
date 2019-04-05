@@ -63,6 +63,7 @@
 				if (cookieString) {
 					let cookieData = JSON.parse(cookie.getCookie());
 					tools.copyObjectProperties(cookieData.timeSet, this.state.timeSet)
+					tools.copyObjectProperties(cookieData.timeRestartAfter, this.state.timeRestartAfter)
 					this.state.settings.soundIndex = cookieData.settings.soundIndex;
 					this.state.settings.onZeroAction = cookieData.settings.onZeroAction;
 					this.state.settings.fontColor = cookieData.settings.fontColor;

@@ -12,8 +12,8 @@
 						Alarm
 					</h2>
 					<div v-if="this.state.settings.onZeroAction == 'restart2'">
-						<span v-if="timeToRestart.hours"> {{ timeToRestart.hours | addZero }} : </span> 
-						{{ timeToRestart.minutes | addZero }} : {{ timeToRestart.seconds | addZero }}
+						<span v-if="time.hours"> {{ time.hours | addZero }} : </span> 
+						{{ time.minutes | addZero }} : {{ time.seconds | addZero }}
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -40,21 +40,12 @@
 
 		},
 
+		props : {
+			time: Object
+		},
+
 		data() {
 			return {
-				time: {
-					hours: 0,
-					minutes: 0,
-					seconds: 0
-				},
-				timeToRestart: {
-					hours: 0,
-					minutes: 0,
-					seconds: 0
-				},
-				delta: 0,
-				timeStart: 0,
-				interval: null,
 				state: store.state
 			}
 		},
@@ -75,11 +66,17 @@
 		},
 
 		methods: {
-			
+
 		},
 
 		watch: {
-			
+			'state.timeRestartAfter':{
+				handler: function () {
+					tools.copyObjectProperties(this.state.timeRestartAfter, this.time);
+					console.log(this.time);
+				},
+				deep: true
+			}
 		},
 
 		mounted: function() {

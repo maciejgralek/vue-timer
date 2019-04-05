@@ -61,14 +61,14 @@
 			</div>
 			<div class="col">
 				<select class="form-control" v-model="state.settings.soundRepeat">
-					<option value="1"> 1 </option>
+					<option value="1"> Play once </option>
 					<option value="3"> Repeat 3 </option>
 					<option value="5"> Repeat 5 </option>
 					<option value="0"> Loop </option>
 				</select>
 			</div>
-			<div class="col">
-				<button class="btn btn-primary" @click="playSound">&#9654;</button>
+			<div class="col d-flex justify-content-center">
+				<button class="btn btn-primary" @click="playSound">&#9654; Play</button>
 			</div>
 
 		</div>
@@ -81,7 +81,7 @@
 					On zero
 				</label>
 			</div>
-			<div class="col-8">
+			<div class="col-9">
 					<div class="custom-control custom-radio">
 						<input class="custom-control-input" type="radio" id="radio1" value="0" v-model="state.settings.onZeroAction">
 						<label class="custom-control-label" for="radio1">
@@ -137,9 +137,14 @@
 					</div>
 				</div>
 				</transition>
+			</div>
+		</div>
 
-				<!-- restart after -->
+		<!-- restart after -->
 
+		<div class="row">
+			<div class="col-12 d-flex justify-content-end">
+				<button class="btn btn-primary" @click="">Test</button>
 			</div>
 		</div>
 
@@ -174,11 +179,11 @@
 		<!-- 			</div> -->
 		<!-- 		</div> -->
 		<!-- 	</div> -->
-    <!--  -->
+		<!--  -->
 		<!-- </div> -->
-    <!--  -->
+		<!--  -->
 		<!-- <!&#45;&#45; modal &#45;&#45;> -->
-    <!--  --><!--}}}-->
+		<!--  --><!--}}}-->
 		<!-- <div class="modal fade" id="exampleModal" tabindex="&#45;1" role="dialog" aria&#45;labelledby="exampleModalLabel" aria&#45;hidden="true"><!&#45;&#45;  &#45;&#45;> --><!--{{{-->
 		<!-- 	<div class="modal&#45;dialog modal&#45;dialog&#45;centered" role="document"> -->
 		<!-- 		<div class="modal&#45;content"> -->
@@ -209,8 +214,6 @@
 	import { cookie } from '../cookie.js';
 
 	export default {
-		mixins: [mixin],
-
 		components: {
 
 		},
@@ -296,11 +299,10 @@
 .dot {
 	height: 25px;
 	width: 25px;
-	background-color: #bbb;
 	border-radius: 50%;
 	display: inline-block;
-	-webkit-box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.3); 
-	box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.3);
+	/* -webkit-box-shadow: 1px 2px 5px 0px rgba(0,0,0,0.3);  */
+	box-shadow: 2px 2px 8px 0px rgba(0,0,0,0.3);
 }
 .dot:hover {
 	height: 25px;
@@ -331,8 +333,8 @@
 	background-color: rgba(255,255,255,0.9);
 	padding-right: 2em;
 	padding-left: 2em;
-	padding-bottom: 2em;
-	padding-top: 3em;
+	padding-bottom: 1em;
+	padding-top: 2em;
 	border-radius: 5px;
 }
 .bg-red {

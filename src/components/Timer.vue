@@ -25,20 +25,20 @@
 			</button>
 		</div>
 
-		<alarm-modal id="alarmModal" @pause-sound="pauseSound" />
+		<alarm-modal :time="timeToRestart" id="alarmModal" @pause-sound="pauseSound" />
 
 	</div>
 </template>
 
 <script>
+	import AlarmModal from './AlarmModal.vue';
 	import { store } from '../store.js'
 	import { mixin } from '../mixin.js'
 
 	import tools from '../tools.js';
 	import { sound } from '../sound.js'
-	import $ from 'jquery';
 	import { timer } from '../timer.js'
-	import AlarmModal from './AlarmModal.vue';
+	import $ from 'jquery';
 
 	export default {
 		mixins: [mixin],
@@ -62,6 +62,7 @@
 				delta: 0,
 				timeStart: 0,
 				interval: null,
+				intervalRestart: null,
 				state: store.state
 			}
 		},
@@ -83,11 +84,13 @@
 
 		methods: {
 			startTimer() {
+				clearInterval(this.intervalRestart);
+				tools.copyObjectProperties(this.state.timeRestartAfter, this.timeToRestart);
 				this.interval = timer.createTimer(this.time, this.alarm)
 			},
 
 			alarm() {
-				sound.play(this.state.settings.soundIndex);
+				sound.play(this.state.settings.soundIndex, this.state.settings.soundRepeat);
 				$('#alarmModal').modal('show');
 				if (this.state.settings.onZeroAction == 0) {
 					this.stopTimer();
@@ -98,6 +101,7 @@
 				}
 				else if (this.state.settings.onZeroAction == "restart2") {
 					this.resetTimer();
+					this.intervalRestart = timer.createTimer(this.timeToRestart, this.startTimer)
 				}
 			},
 
@@ -157,7 +161,8 @@
 		},
 
 		mounted: function() {
-			tools.copyObjectProperties(this.state.timeSet, this.time)	;
+			tools.copyObjectProperties(this.state.timeSet, this.time);
+			tools.copyObjectProperties(this.state.timeRestartAfter, this.timeToRestart);
 
 			this.$refs.timer.style.color = this.state.settings.fontColor;
 			document.body.style.backgroundColor = this.state.settings.backgroundColor;

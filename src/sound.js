@@ -14,7 +14,6 @@ export const sound = {
 	},
 
 	play(index, repeat) {
-		// this.sounds[index].play();
 		let counter = 1;
 		this.sounds[index].addEventListener('ended', () => {
 			this.sounds[index].currentTime = 0;
@@ -24,18 +23,9 @@ export const sound = {
 			counter++;
 		}, false);
 		this.sounds[index].play();
-		console.log(this.sounds);
 	},
 
 	pause(index) {
 		this.sounds[index].pause();
-	},
-
-	playOnce(index) {
-		let loop = this.sounds[index].loop;
-		this.sounds[index].loop = false;
-		console.log(loop, this.sounds[index].loop);
-		this.play(index);
-		this.sounds[index].loop = loop;
 	}
 }
