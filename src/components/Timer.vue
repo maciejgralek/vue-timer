@@ -25,7 +25,10 @@
 			</button>
 		</div>
 
-		<alarm-modal :time="timeToRestart" id="alarmModal" @pause-sound="pauseSound" />
+		<alarm-modal 
+			:time="timeToRestart" 
+			id="alarmModal" 
+			@pause-sound="pauseSound" />
 
 	</div>
 </template>
@@ -42,8 +45,6 @@
 	import $ from 'jquery';
 
 	export default {
-		mixins: [mixin],
-
 		components: {
 			AlarmModal
 		},
@@ -93,14 +94,14 @@
 			alarm() {
 				sound.play(this.state.settings.soundIndex, this.state.settings.soundRepeat);
 				$('#alarmModal').modal('show');
-				if (this.state.settings.onZeroAction == 0) {
+				if (this.state.settings.onZeroAction === 0) {
 					this.stopTimer();
 				}
-				else if (this.state.settings.onZeroAction == "restart") {
+				else if (this.state.settings.onZeroAction === "restart") {
 					this.resetTimer();
 					this.startTimer();
 				}
-				else if (this.state.settings.onZeroAction == "restart2") {
+				else if (this.state.settings.onZeroAction === "restart2") {
 					this.resetTimer();
 					this.intervalRestart = timer.createTimer(this.timeToRestart, this.startTimer)
 				}
@@ -131,27 +132,27 @@
 				},
 				deep: true
 			},
-			'state.timeRestartAfter':{
+			'state.timeRestartAfter': {
 				handler: function () {
 					tools.copyObjectProperties(this.state.timeRestartAfter, this.timeToRestart);
 				},
 				deep: true
 			},
-			'state.settings.fontSize':{
-				handler: function (newValue, oldValue) {
-					this.$refs.timer.style.fontSize = this.state.settings.fontSize+"px";
+			'state.settings.fontSize': {
+				handler: function () {
+					ui.setFontSize(this.$refs.timer, this.state.settings.fontSize);
 					ui.centerElementVertically(this.$el);
 				}
 			},
-			'state.settings.fontColor':{
-				handler: function (newValue, oldValue) {
-					this.$refs.timer.style.color = newValue;
+			'state.settings.fontColor': {
+				handler: function () {
+					ui.setForegroundColor(this.$refs.timer, this.state.settings.fontColor);
 				}
 			},
-			'state.settings.backgroundColor':{
-				handler: function (newValue, oldValue) {
+			'state.settings.backgroundColor': {
+				handler: function () {
 					document.body.style.backgroundImage = "";
-					document.body.style.backgroundColor = newValue;
+					ui.setBackgroundColor(document.body, this.state.settings.backgroundColor);
 				}
 			}
 		},

@@ -1,6 +1,5 @@
 export const sound = {
 	sounds: [],
-	currentSound: 0,
 
 	initSound() {
 		this.sounds.push(new Audio(require('./assets/ring.wav')));
