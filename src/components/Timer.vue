@@ -36,6 +36,7 @@
 	import { mixin } from '../mixin.js'
 
 	import tools from '../tools.js';
+	import { ui } from '../ui.js';
 	import { sound } from '../sound.js'
 	import { timer } from '../timer.js'
 	import $ from 'jquery';
@@ -105,11 +106,6 @@
 				}
 			},
 
-			positionComponent() {
-				this.$el.style.marginTop = (document.documentElement.clientHeight/2 - 
-					this.$el.clientHeight/2)+"px"
-			},
-
 			stopTimer() {
 				timer.stopTimer(this.interval);
 				this.interval = null;
@@ -144,7 +140,7 @@
 			'state.settings.fontSize':{
 				handler: function (newValue, oldValue) {
 					this.$refs.timer.style.fontSize = this.state.settings.fontSize+"px";
-					this.positionComponent();
+					ui.centerElementVertically(this.$el);
 				}
 			},
 			'state.settings.fontColor':{
@@ -164,14 +160,14 @@
 			tools.copyObjectProperties(this.state.timeSet, this.time);
 			tools.copyObjectProperties(this.state.timeRestartAfter, this.timeToRestart);
 
-			this.$refs.timer.style.color = this.state.settings.fontColor;
-			document.body.style.backgroundColor = this.state.settings.backgroundColor;
-			this.$refs.timer.style.fontSize = this.state.settings.fontSize+"px";
-			this.positionComponent();
+			ui.setForegroundColor(this.$refs.timer, this.state.settings.fontColor);
+			ui.setBackgroundColor(document.body, this.state.settings.backgroundColor);
+			ui.setFontSize(this.$refs.timer, this.state.settings.fontSize);
+			ui.centerElementVertically(this.$el);
 
 			sound.initSound();
 
-			window.addEventListener('resize', this.positionComponent);
+			window.addEventListener('resize', () => ui.centerElementVertically(this.$el));
 		}
 	}
 </script>
@@ -182,7 +178,6 @@
 @font-face { font-family: Digital; src: url('../assets/LiquidCrystal-Bold.otf'); } 
 
 .timer {
-	/* font-family: 'Montserrat', sans-serif; */
 	font-weight: bold;
 	font-family: 'Aldrich', sans-serif;
 	/* font-family: 'Digital' */
