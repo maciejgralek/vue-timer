@@ -16,6 +16,7 @@
 					 class="form-control">
 					<option value="0" selected>00</option>
 					<option v-for="i in 12" :value="i"> {{ i | addZero }} </option>
+					<option v-for="i in 12" :value="i"> {{ i | addZero }} </option>
 				</select>
 				<small>Hours</small>
 			</div>
@@ -30,15 +31,19 @@
 				<small>Minutes</small>
 			</div>
 			<div class="col">
-				<select 
-					 v-model="state.timeSet.seconds" 
-					 id="inputState" 
-					 class="form-control">
-					<option value="0" selected>00</option>
-					<option v-for="i in 59" :value="i"> {{ i | addZero }} </option>
-				</select>
-				<small>Seconds</small>
+				<div class="custom-control custom-checkbox col-form-label" style="vertical-align: middle">
+					<input 
+						 class="custom-control-input"
+						 type="checkbox"
+						 id="checkbox2"
+						 value="restart2" 
+						 v-model="state.settings.onZeroAction">
+					<label class="custom-control-label" for="checkbox2">
+						24 hour
+					</label>
+				</div>
 			</div>
+
 		</div>
 
 		<hr>

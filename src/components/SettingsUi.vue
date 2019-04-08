@@ -3,8 +3,16 @@
 				<transition name="fade">
 				<div v-if="state.showSettings">
 					<div class="d-flex justify-content-end">
-						<a href="" class="icon btn btn-secondary" @click.prevent="setFontSize(1)">A+</a>
-						<a href="" class="icon btn btn-secondary ml-1"  @click.prevent="setFontSize(-1)">A- </a>
+						<a href="" 
+							 class="icon btn btn-secondary" 
+							 @click.prevent="setFontSize(1)">
+							A+
+						</a>
+						<a href="" 
+							 class="icon btn btn-secondary ml-1" 
+							 @click.prevent="setFontSize(-1)">
+							A-
+						</a>
 					</div>
 					<div class="d-flex justify-content-end mt-2" @click="setFontColor($event)">
 						<span data-color="black" class="dot dot-dark mx-1"></span>
@@ -56,6 +64,7 @@
 
 				cookie.setCookie(this.state);
 			},
+
 			setBackgroundColor(e) {
 				let color = e.target.dataset.color;
 				this.state.settings.backgroundColor = color;

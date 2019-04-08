@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Timer from './components/Timer.vue';
+import TimerContainer from './components/TimerContainer.vue';
 
 Vue.use(Router)
 
@@ -33,8 +33,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'timer',
-      component: Timer
+      name: 'timer-container',
+      component: TimerContainer
     },
     {
       path: '/',
