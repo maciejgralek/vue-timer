@@ -48,7 +48,7 @@
 		<div class="form-group row">
 			<div class="col-3">
 				<label for="inputState" class="col-form-label">
-					Sound
+					Alarm
 				</label>
 			</div>
 			<div class="col-4">
@@ -58,6 +58,7 @@
 					 v-model="state.settings.soundIndex">
 					<option v-for="(sound, index) in sounds" :value="index"> {{ sound }} </option>
 				</select>
+				<small>Sound</small>
 			</div>
 			<div class="col">
 				<select class="form-control" v-model="state.settings.soundRepeat">
@@ -66,6 +67,7 @@
 					<option value="5"> Repeat 5 </option>
 					<option value="0"> Loop </option>
 				</select>
+				<small>Repeat</small>
 			</div>
 			<div class="col d-flex justify-content-center">
 				<button class="btn btn-primary" @click="playSound">&#9654; Play</button>

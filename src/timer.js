@@ -34,6 +34,19 @@ export const timer = {
 		})
 	},
 
+	createClock(timer, alarm, callback) {
+		return setInterval(function() {
+			let time = new Date();
+			timer.hours = time.getHours();;
+			timer.minutes = time.getMinutes();
+			timer.seconds = time.getSeconds();
+			if (timer.hours === alarm.hours &&
+				timer.minutes === alarm.minutes) {
+					callback();
+			}
+		}, 1000)	
+	},
+
 	stopTimer(id) {
 		clearInterval(id);
 	}

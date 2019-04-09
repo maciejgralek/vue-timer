@@ -11,6 +11,9 @@ export const store = {
 			onZeroAction: 0,
 			soundIndex: 0,
 			soundRepeat: true,
+			is24hours: false,
+			snooze: false,
+			snoozeMinutes: 5,
 			fontSize: 120,
 			fontColor: "black",
 			backgroundColor: "light",
@@ -18,6 +21,11 @@ export const store = {
 		},
 		timeSet: {
 			hours: 0,
+			minutes: 30,
+			seconds: 0
+		},
+		timerAlarm: {
+			hours: 2,
 			minutes: 30,
 			seconds: 0
 		},

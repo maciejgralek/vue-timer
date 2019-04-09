@@ -11,18 +11,17 @@
 			</div>
 			<div class="col">
 				<select 
-					 v-model="state.timeSet.hours" 
+					 v-model="state.timerAlarm.hours" 
 					 id="inputState" 
 					 class="form-control">
-					<option value="0" selected>00</option>
-					<option v-for="i in 12" :value="i"> {{ i | addZero }} </option>
-					<option v-for="i in 12" :value="i"> {{ i | addZero }} </option>
+					<option v-for="i in 24" :value="i"> {{ i | formatTimer(state.settings.is24hours) }} </option>
+					<!-- <option v&#45;for="i in 12" :value="i"> {{ i + " PM" }} </option> -->
 				</select>
 				<small>Hours</small>
 			</div>
 			<div class="col">
 				<select 
-					 v-model="state.timeSet.minutes" 
+					 v-model="state.timerAlarm.minutes" 
 					 id="inputState" 
 					 class="form-control">
 					<option value="0">00</option>
@@ -30,14 +29,14 @@
 				</select>
 				<small>Minutes</small>
 			</div>
-			<div class="col">
+			<div class="col-2">
 				<div class="custom-control custom-checkbox col-form-label" style="vertical-align: middle">
 					<input 
 						 class="custom-control-input"
 						 type="checkbox"
 						 id="checkbox2"
 						 value="restart2" 
-						 v-model="state.settings.onZeroAction">
+						 v-model="state.settings.is24hours">
 					<label class="custom-control-label" for="checkbox2">
 						24 hour
 					</label>
@@ -53,7 +52,7 @@
 		<div class="form-group row">
 			<div class="col-3">
 				<label for="inputState" class="col-form-label">
-					Sound
+					Alarm
 				</label>
 			</div>
 			<div class="col-4">
@@ -63,6 +62,7 @@
 					 v-model="state.settings.soundIndex">
 					<option v-for="(sound, index) in sounds" :value="index"> {{ sound }} </option>
 				</select>
+				<small>Sound</small>
 			</div>
 			<div class="col">
 				<select class="form-control" v-model="state.settings.soundRepeat">
@@ -71,6 +71,7 @@
 					<option value="5"> Repeat 5 </option>
 					<option value="0"> Loop </option>
 				</select>
+				<small>Repeat</small>
 			</div>
 			<div class="col d-flex justify-content-center">
 				<button class="btn btn-primary" @click="playSound">&#9654; Play</button>
@@ -82,77 +83,47 @@
 		<div class="form-group row">
 			<div class="col-3">
 				<label for="inputState" class="col-form-label pt-0">
-					On zero
+					Snooze
 				</label>
 			</div>
 			<div class="col-9">
-				<div class="custom-control custom-radio">
+				<div class="custom-control custom-checkbox">
 					<input 
 						 class="custom-control-input" 
-						 type="radio" 
+						 type="checkbox" 
 						 id="radio1" 
 						 value="0" 
-						 v-model="state.settings.onZeroAction">
+						 v-model="state.settings.snooze">
 					<label class="custom-control-label" for="radio1">
-						Do nothing
-					</label>
-				</div>
-				<div class="custom-control custom-radio">
-					<input 
-						 class="custom-control-input"
-						 type="radio"
-						 id="radio2"
-						 value="restart"
-						 v-model="state.settings.onZeroAction">
-					<label class="custom-control-label" for="radio2">
-						Restart
-					</label>
-				</div>
-				<div class="custom-control custom-radio">
-					<input 
-						 class="custom-control-input"
-						 type="radio"
-						 id="radio3"
-						 value="restart2" 
-						 v-model="state.settings.onZeroAction">
-					<label class="custom-control-label" for="radio3">
-						Restart after...
 					</label>
 				</div>
 
 				<!-- restart after -->
 
 				<transition name="fade">
-				<div class="row mt-3" v-if="state.settings.onZeroAction == 'restart2'">
-					<div class="col">
+				<div class="row mt-3" v-if="state.settings.snooze">
+					<div class="col-4">
 						<select 
-							 v-model="state.timeRestartAfter.hours" 
+							 v-model="state.settings.snoozeMinutes" 
 							 id="inputState" 
 							 class="form-control">
 							<option value="0" selected>00</option>
-							<option v-for="i in 12" :value="i"> {{ i | addZero }} </option>
-						</select>
-						<small>Hours</small>
-					</div>
-					<div class="col">
-						<select 
-							 v-model="state.timeRestartAfter.minutes" 
-							 id="inputState" 
-							 class="form-control">
-							<option value="0">00</option>
 							<option v-for="i in 59" :value="i"> {{ i | addZero }} </option>
 						</select>
 						<small>Minutes</small>
 					</div>
-					<div class="col">
+					<div class="col-4">
 						<select 
 							 v-model="state.timeRestartAfter.seconds" 
 							 id="inputState" 
 							 class="form-control">
-							<option value="0" selected>00</option>
-							<option v-for="i in 59" :value="i"> {{ i | addZero }} </option>
+							<option value="1" selected>1 time</option>
+							<option value="2" selected>2 times</option>
+							<option value="3" selected>3 times</option>
+							<option value="4" selected>4 times</option>
+							<option value="5" selected>5 times</option>
 						</select>
-						<small>Seconds</small>
+						<small>Repeat</small>
 					</div>
 				</div>
 				</transition>
@@ -212,6 +183,15 @@
 				}
 
 				return str;
+			},
+			formatTimer(value, format) {
+				if (!format) {
+					let hours = value % 12;
+					hours = hours ? hours : 12;
+					hours = value >= 12 ? hours + " AM" : hours + " PM";
+					return hours;
+				}
+				return value;
 			}
 		},
 

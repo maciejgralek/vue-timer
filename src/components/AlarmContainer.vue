@@ -5,8 +5,8 @@
 			<div class="row">
 				<div class="col-12 d-flex">
 					<div class="mx-auto">
-						<timer>
-						</timer>
+						<alarm-timer>
+						</alarm-timer>
 					</div>
 				</div>
 			</div>
@@ -15,7 +15,7 @@
 				<div class="col-6">
 					<div class="d-flex align-items-center justify-content-center">
 						<transition name="fade">
-						<settings v-show="state.showSettings" class="w-100"></settings>
+						<settings-alarm v-show="state.showSettings" class="w-100"></settings-alarm>
 						</transition>
 					</div>
 				</div>
@@ -26,8 +26,8 @@
 </template>
 
 <script>
-	import Timer from './Timer.vue';
-	import Settings from './Settings.vue';
+	import AlarmTimer from './AlarmTimer.vue';
+	import SettingsAlarm from './SettingsAlarm.vue';
 	import { store } from '../store.js'
 	import { mixin } from '../mixin.js'
 
@@ -36,8 +36,8 @@
 
 	export default {
 		components: {
-			Timer,
-			Settings
+			AlarmTimer,
+			SettingsAlarm
 		},
 
 		data() {

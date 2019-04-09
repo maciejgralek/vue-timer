@@ -1,37 +1,8 @@
 <template>
 	<div id="app">
 		<!-- <navbar></navbar> -->
-
 		<settings-ui class="position-fixed settings-fixed m-2"></settings-ui>
-
-						<router-view></router-view>
-		<!-- <div class="container&#45;fluid"> -->
-    <!--  -->
-		<!-- 	<!&#45;&#45; row &#45;&#45;> -->
-    <!--  -->
-		<!-- 	<div class="row"> -->
-		<!-- 		<div class="col&#45;12 d&#45;flex"> -->
-		<!-- 			<div class="mx&#45;auto"> -->
-		<!-- 				<router&#45;view></router&#45;view> -->
-		<!-- 			</div> -->
-		<!-- 		</div> -->
-		<!-- 	</div> -->
-    <!--  -->
-		<!-- 	<!&#45;&#45; row &#45;&#45;> -->
-    <!--  -->
-		<!-- 	<div class="row mt&#45;4 justify&#45;content&#45;center"> -->
-		<!-- 		<div class="col&#45;6"> -->
-		<!-- 			<div class="d&#45;flex align&#45;items&#45;center justify&#45;content&#45;center"> -->
-		<!-- 				<transition name="fade"> -->
-		<!-- 					<settings v&#45;show="state.showSettings" class="w&#45;100"></settings> -->
-		<!-- 				</transition> -->
-		<!-- 			</div> -->
-		<!-- 		</div> -->
-		<!-- 	</div> -->
-    <!--  -->
-		<!-- 	<!&#45;&#45; row &#45;&#45;> -->
-    <!--  -->
-		<!-- </div>  -->
+		<router-view></router-view>
 	</div>
 </template>
 
@@ -48,8 +19,6 @@
 	export default {
 		components: {
 			Navbar,
-			Settings,
-			SettingsAlarm,
 			SettingsUi
 		},
 
@@ -67,12 +36,14 @@
 					let cookieData = JSON.parse(cookie.getCookie());
 					tools.copyObjectProperties(cookieData.timeSet, this.state.timeSet)
 					tools.copyObjectProperties(cookieData.timeRestartAfter, this.state.timeRestartAfter)
+					tools.copyObjectProperties(cookieData.timerAlarm, this.state.timerAlarm)
 					this.state.settings.soundIndex = cookieData.settings.soundIndex;
 					this.state.settings.onZeroAction = cookieData.settings.onZeroAction;
 					this.state.settings.fontColor = cookieData.settings.fontColor;
 					this.state.settings.backgroundColor = cookieData.settings.backgroundColor;
 					this.state.settings.fontSize = cookieData.settings.fontSize;
 					this.state.settings.soundRepeat = cookieData.settings.soundRepeat;
+					this.state.settings.is24hours = cookieData.settings.is24hours;
 				}
 			}
 		},
