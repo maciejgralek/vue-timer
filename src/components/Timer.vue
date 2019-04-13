@@ -28,15 +28,15 @@
 		<alarm-modal 
 			:time="timeToRestart" 
 			id="alarmModal" 
-			@pause-sound="pauseSound" />
+			@pause-sound="stopTimer" />
 
 	</div>
 </template>
 
 <script>
 	import AlarmModal from './AlarmModal.vue';
-	import { store } from '../store.js'
 	import { mixin } from '../mixin.js'
+	import { store } from '../store.js'
 
 	import tools from '../tools.js';
 	import { ui } from '../ui.js';
@@ -45,6 +45,8 @@
 	import $ from 'jquery';
 
 	export default {
+		mixins: [mixin],
+
 		components: {
 			AlarmModal
 		},
@@ -65,36 +67,25 @@
 				timeStart: 0,
 				interval: null,
 				intervalRestart: null,
+				recent: [],
 				state: store.state
 			}
 		},
 
-		filters: {
-			addZero(value) {
-				let str = value.toString();
-				if (str.length == 1) {
-					return "0" + str;
-				}
-
-				return str;
-			}
-		},
-
-		computed: {
-
-		},
-
 		methods: {
 			startTimer() {
-				clearInterval(this.intervalRestart);
-				tools.copyObjectProperties(this.state.timeRestartAfter, this.timeToRestart);
-				this.interval = timer.createTimer(this.time, this.alarm)
+				if (this.intervalRestart) {
+					clearInterval(this.intervalRestart);
+					tools.copyObjectProperties(this.state.timeRestartAfter, this.timeToRestart);
+				}
+				this.interval = timer.createTimer(this.time, this.alarm);
+				this.addRecent();
 			},
 
 			alarm() {
 				sound.play(this.state.settings.soundIndex, this.state.settings.soundRepeat);
 				$('#alarmModal').modal('show');
-				if (this.state.settings.onZeroAction === 0) {
+				if (this.state.settings.onZeroAction == 0) {
 					this.stopTimer();
 				}
 				else if (this.state.settings.onZeroAction === "restart") {
@@ -109,7 +100,9 @@
 
 			stopTimer() {
 				timer.stopTimer(this.interval);
+				timer.stopTimer(this.intervalRestart);
 				this.interval = null;
+				this.intervalRestart = null;
 			},
 
 			resetTimer() {
@@ -119,15 +112,37 @@
 
 			pauseSound() {
 				sound.pause(this.state.settings.soundIndex);
+			},
+
+			addRecent() {
+				for (let recentItem of this.state.recent) {
+					if (recentItem.hours == this.state.timeSet.hours &&
+						recentItem.minutes == this.state.timeSet.minutes &&
+						recentItem.seconds == this.state.timeSet.seconds)
+						return;
+				}
+				let index = this.state.recent.length;
+				if (index > 2) {
+					this.state.recent.shift();
+					index = 2;
+				}
+				let time = {
+					hours: this.$options.filters.addZero(this.state.timeSet.hours),
+					minutes: this.$options.filters.addZero(this.state.timeSet.minutes),
+					seconds: this.$options.filters.addZero(this.state.timeSet.seconds)
+				} 
+				this.$set(this.state.recent, index, time);
 			}
 		},
 
 		watch: {
 			'state.timeSet':{
 				handler: function () {
-					tools.copyObjectProperties(this.state.timeSet, this.time);
 					if (this.interval) {
 						this.resetTimer();
+					}
+					else {
+						tools.copyObjectProperties(this.state.timeSet, this.time);
 					}
 				},
 				deep: true
@@ -137,23 +152,6 @@
 					tools.copyObjectProperties(this.state.timeRestartAfter, this.timeToRestart);
 				},
 				deep: true
-			},
-			'state.settings.fontSize': {
-				handler: function () {
-					ui.setFontSize(this.$refs.timer, this.state.settings.fontSize);
-					ui.centerElementVertically(this.$el);
-				}
-			},
-			'state.settings.fontColor': {
-				handler: function () {
-					ui.setForegroundColor(this.$refs.timer, this.state.settings.fontColor);
-				}
-			},
-			'state.settings.backgroundColor': {
-				handler: function () {
-					document.body.style.backgroundImage = "";
-					ui.setBackgroundColor(document.body, this.state.settings.backgroundColor);
-				}
 			}
 		},
 

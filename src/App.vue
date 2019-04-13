@@ -1,8 +1,13 @@
 <template>
 	<div id="app">
-		<!-- <navbar></navbar> -->
-		<settings-ui class="position-fixed settings-fixed m-2"></settings-ui>
-		<router-view></router-view>
+		<navbar>
+		</navbar>
+
+		<settings-ui class="position-fixed settings-fixed m-2">
+		</settings-ui>
+
+		<router-view>
+		</router-view>
 	</div>
 </template>
 
@@ -44,6 +49,10 @@
 					this.state.settings.fontSize = cookieData.settings.fontSize;
 					this.state.settings.soundRepeat = cookieData.settings.soundRepeat;
 					this.state.settings.is24hours = cookieData.settings.is24hours;
+					if (cookieData.recent) {
+						for (let recentItem = 0; recentItem < cookieData.recent.length; recentItem++)
+							this.$set(this.state.recent, recentItem, cookieData.recent[recentItem]);
+					}
 				}
 			}
 		},

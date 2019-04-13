@@ -6,7 +6,7 @@
 		<div class="form-group row">
 			<div class="col-3">
 				<label for="inputState" class="col-form-label">
-					Timer
+					Alarm
 				</label>
 			</div>
 			<div class="col">
@@ -14,10 +14,10 @@
 					 v-model="state.timerAlarm.hours" 
 					 id="inputState" 
 					 class="form-control">
-					<option v-for="i in 24" :value="i"> {{ i | formatTimer(state.settings.is24hours) }} </option>
+					<option v-for="i in 24" :value="i - 1"> {{ i - 1 | formatTimer(state.settings.is24hours) }} </option>
 					<!-- <option v&#45;for="i in 12" :value="i"> {{ i + " PM" }} </option> -->
 				</select>
-				<small>Hours</small>
+				<small>Hour</small>
 			</div>
 			<div class="col">
 				<select 
@@ -27,7 +27,7 @@
 					<option value="0">00</option>
 					<option v-for="i in 59" :value="i"> {{ i | addZero }} </option>
 				</select>
-				<small>Minutes</small>
+				<small>Minute</small>
 			</div>
 			<div class="col-2">
 				<div class="custom-control custom-checkbox col-form-label" style="vertical-align: middle">
@@ -52,7 +52,7 @@
 		<div class="form-group row">
 			<div class="col-3">
 				<label for="inputState" class="col-form-label">
-					Alarm
+					Sound
 				</label>
 			</div>
 			<div class="col-4">
@@ -62,7 +62,6 @@
 					 v-model="state.settings.soundIndex">
 					<option v-for="(sound, index) in sounds" :value="index"> {{ sound }} </option>
 				</select>
-				<small>Sound</small>
 			</div>
 			<div class="col">
 				<select class="form-control" v-model="state.settings.soundRepeat">
@@ -71,14 +70,13 @@
 					<option value="5"> Repeat 5 </option>
 					<option value="0"> Loop </option>
 				</select>
-				<small>Repeat</small>
 			</div>
 			<div class="col d-flex justify-content-center">
 				<button class="btn btn-primary" @click="playSound">&#9654; Play</button>
 			</div>
 		</div>
 
-		<!-- row on zero -->
+		<!-- snooze -->
 
 		<div class="form-group row">
 			<div class="col-3">
@@ -98,11 +96,11 @@
 					</label>
 				</div>
 
-				<!-- restart after -->
+				<!-- snooze -->
 
 				<transition name="fade">
 				<div class="row mt-3" v-if="state.settings.snooze">
-					<div class="col-4">
+					<div class="col-6">
 						<select 
 							 v-model="state.settings.snoozeMinutes" 
 							 id="inputState" 
@@ -112,7 +110,7 @@
 						</select>
 						<small>Minutes</small>
 					</div>
-					<div class="col-4">
+					<div class="col-6">
 						<select 
 							 v-model="state.timeRestartAfter.seconds" 
 							 id="inputState" 
@@ -188,7 +186,7 @@
 				if (!format) {
 					let hours = value % 12;
 					hours = hours ? hours : 12;
-					hours = value >= 12 ? hours + " AM" : hours + " PM";
+					hours = value >= 12 ? hours + " PM" : hours + " AM";
 					return hours;
 				}
 				return value;

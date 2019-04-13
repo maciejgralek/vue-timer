@@ -48,7 +48,7 @@
 		<div class="form-group row">
 			<div class="col-3">
 				<label for="inputState" class="col-form-label">
-					Alarm
+					Sound
 				</label>
 			</div>
 			<div class="col-4">
@@ -58,7 +58,6 @@
 					 v-model="state.settings.soundIndex">
 					<option v-for="(sound, index) in sounds" :value="index"> {{ sound }} </option>
 				</select>
-				<small>Sound</small>
 			</div>
 			<div class="col">
 				<select class="form-control" v-model="state.settings.soundRepeat">
@@ -67,7 +66,6 @@
 					<option value="5"> Repeat 5 </option>
 					<option value="0"> Loop </option>
 				</select>
-				<small>Repeat</small>
 			</div>
 			<div class="col d-flex justify-content-center">
 				<button class="btn btn-primary" @click="playSound">&#9654; Play</button>
@@ -156,7 +154,7 @@
 			</div>
 		</div>
 
-		<!-- restart after -->
+		<!-- recent -->
 
 		<div class="form-group row">
 			<div class="col-3">
@@ -166,9 +164,11 @@
 			</div>
 			<div class="col-9">
 				<ul class="recent">
-					<li><a href="">30 : 00</a></li>
-					<li><a href="">45 : 00</a></li>
-					<li><a href="">10 : 00</a></li>
+					<li v-for="(time, index) in state.recent">
+						<a href="" @click.prevent="selectRecent(index)"> 
+							{{ time.hours }} : {{ time.minutes }} : {{ time.seconds }} 
+						</a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -184,9 +184,9 @@
 
 <script>
 	import { store } from '../store'
-	import { mixin } from '../mixin.js';
-	import { sound } from '../sound.js';
-	import { cookie } from '../cookie.js';
+	import { sound } from '../sound.js'
+	import { cookie } from '../cookie.js'
+	import tools from '../tools.js'
 
 	export default {
 		components: {
@@ -218,6 +218,9 @@
 
 		updated: function() {
 			cookie.setCookie(this.state);
+			// let settings = JSON.stringify(this.state);
+			// localStorage.setItem('state', settings);
+			// console.log(localStorage.getItem('state'));
 		},
 
 		methods: {
@@ -250,6 +253,10 @@
 
 			playSound() {
 				sound.play(this.state.settings.soundIndex, this.state.settings.soundRepeat);
+			},
+
+			selectRecent(index) {
+				tools.copyObjectProperties(this.state.recent[index], this.state.timeSet);
 			}
 		},
 

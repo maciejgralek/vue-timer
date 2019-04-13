@@ -35,13 +35,16 @@ export const timer = {
 	},
 
 	createClock(timer, alarm, callback) {
+		let enabled = true;
+
 		return setInterval(function() {
 			let time = new Date();
-			timer.hours = time.getHours();;
+			timer.hours = time.getHours();
 			timer.minutes = time.getMinutes();
 			timer.seconds = time.getSeconds();
 			if (timer.hours === alarm.hours &&
-				timer.minutes === alarm.minutes) {
+				timer.minutes === alarm.minutes &&
+				timer.seconds === alarm.seconds) {
 					callback();
 			}
 		}, 1000)	

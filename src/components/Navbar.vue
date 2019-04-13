@@ -4,15 +4,13 @@
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-
+<router-link to="/timer" class="ml-2">
+	Timer
+</router-link>
+<router-link to="/alarm" class="ml-2">
+	Alarm clock
+</router-link>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<transition name="fade">
-			<div v-if="state.showSettings" class="ml-auto">
-				<a href="" class="icon btn btn-secondary" @click.prevent="setFontSize(1)">A+</a>
-				<a href="" class="icon btn btn-secondary ml-1"  @click.prevent="setFontSize(-1)">A- </a>
-			</div>
-			</transition>
-			<!-- <a href="" class="ml&#45;auto" @click.prevent="state.showSettings = !state.showSettings">Settings</a> -->
 		</div>
 	</nav>
 </template>

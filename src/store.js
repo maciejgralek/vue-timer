@@ -19,6 +19,9 @@ export const store = {
 			backgroundColor: "light",
 			backgroundImage: "mountains.jpg"
 		},
+		alarmActive: false,
+		recent: [],
+		recentAlarm: [],
 		timeSet: {
 			hours: 0,
 			minutes: 30,
@@ -27,7 +30,8 @@ export const store = {
 		timerAlarm: {
 			hours: 2,
 			minutes: 30,
-			seconds: 0
+			seconds: 0,
+			enabled: false
 		},
 		timeRestartAfter: {
 			hours: 0,

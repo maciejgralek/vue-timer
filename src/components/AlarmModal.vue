@@ -17,7 +17,13 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal" @click="$emit('pause-sound')">Close</button>
+					<button 
+						type="button" 
+						class="btn btn-secondary" 
+						data-dismiss="modal" 
+						@click="$emit('pause-sound')">
+						Close
+					</button>
 				</div>
 			</div>
 		</div>
@@ -26,7 +32,6 @@
 
 <script>
 	import { store } from '../store.js'
-	import { mixin } from '../mixin.js'
 
 	import tools from '../tools.js';
 	import { sound } from '../sound.js'
@@ -34,8 +39,6 @@
 	import { timer } from '../timer.js'
 
 	export default {
-		mixins: [mixin],
-
 		components: {
 
 		},
@@ -73,7 +76,6 @@
 			'state.timeRestartAfter':{
 				handler: function () {
 					tools.copyObjectProperties(this.state.timeRestartAfter, this.time);
-					console.log(this.time);
 				},
 				deep: true
 			}

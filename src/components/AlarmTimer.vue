@@ -1,49 +1,65 @@
 <template>
 	<div>
 		<div ref="timer" class="timer text-center" >
-			{{ time.hours | formatTimer(state.settings.is24hours) }} : 
-			{{ time.minutes | addZero }} : {{ time.seconds | addZero }}
-			<small v-if="!state.settings.is24hours"> PM</small>
+			{{ time.hours | formatTimer(state.settings.is24hours) | addZero }} : 
+			{{ time.minutes | addZero }} : 
+			{{ time.seconds | addZero }}
+			<small v-if="!state.settings.is24hours"> 
+				PM
+			</small>
 			<div style="font-size: 0.5em; font-weight: normal">
 				<div class="timer-alarm">
 					Alarm 
 				</div>
 				<span>
-					{{ state.timerAlarm.hours | formatTimer(state.settings.is24hours)}} : 
+					{{ state.timerAlarm.hours | formatTimer(state.settings.is24hours) | addZero }} : 
 					{{ state.timerAlarm.minutes | addZero }} : 
 					{{ state.timerAlarm.seconds | addZero }}</span>
-				<small v-if="!state.settings.is24hours"> PM</small>
+				<small v-if="!state.settings.is24hours">
+					PM
+				</small>
 			</div>
 		</div>
 		<div class="d-flex justify-content-center">
+			<div class="btn-group" role="group" aria-label="Basic example">
+				<button 
+				 type="button" 
+				 class="btn btn-secondary active mt-4 d-flex" 
+				 :class="{ 'btn-success': state.alarmActive }"
+				 @click.prevent="state.alarmActive = !state.alarmActive">
+				 	<img src="../assets/power-off-solid.svg" alt="" width="20">
+			</button>
 			<button 
 				 type="button" 
-				 class="btn btn-secondary" 
+				 class="btn btn-secondary mt-4" 
 				 @click.prevent="state.showSettings = !state.showSettings">
 				Settings
 			</button>
+			</div>
 		</div>
 
 		<alarm-modal 
-				 :time="timeToRestart" 
+				 :time="timeToRestart"
 				 id="alarmModal" 
-				 @pause-sound="pauseSound" />
+				 @pause-sound="stopAlarm" />
 
 	</div>
 </template>
 
 <script>
-	import AlarmModal from './AlarmModal.vue';
-	import { store } from '../store.js'
+	import AlarmModal from './AlarmModal.vue'
 	import { mixin } from '../mixin.js'
+	import { store } from '../store.js'
 
-	import tools from '../tools.js';
-	import { ui } from '../ui.js';
+	import tools from '../tools.js'
+	import { ui } from '../ui.js'
 	import { sound } from '../sound.js'
 	import { timer } from '../timer.js'
 	import $ from 'jquery';
 
 	export default {
+		mixins: [mixin],
+
 		components: {
 			AlarmModal
 		},
@@ -59,33 +75,11 @@
 				timeToRestart: {
 					hours: 0,
 					minutes: 0,
-					seconds: 0
+					seconds: 0,
 				},
-				delta: 0,
-				timeStart: 0,
 				interval: null,
 				intervalRestart: null,
 				state: store.state
-			}
-		},
-
-		filters: {
-			addZero(value) {
-				let str = value.toString();
-				if (str.length == 1) {
-					return "0" + str;
-				}
-
-				return str;
-			},
-
-			formatTimer(value, format) {
-				if (!format) {
-					let hours = value % 12;
-					hours = hours ? hours : 12;
-					return hours;
-				}
-				return value;
 			}
 		},
 
@@ -95,50 +89,47 @@
 				$('#alarmModal').modal('show');
 			},
 			
+			stopAlarm() {
+				sound.pause(this.state.settings.soundIndex);
+				this.state.timerAlarm.enabled = false;
+			},
+
 			pauseSound() {
 				sound.pause(this.state.settings.soundIndex);
-			}
-		},
+			},
 
-		watch: {
-			'state.timeRestartAfter': {
-				handler: function () {
-					tools.copyObjectProperties(this.state.timeRestartAfter, this.timeToRestart);
-				},
-				deep: true
-			},
-			'state.settings.fontSize': {
-				handler: function () {
-					ui.setFontSize(this.$refs.timer, this.state.settings.fontSize);
-					ui.centerElementVertically(this.$el);
+			addRecent() {
+				for (let recentItem of this.state.recentAlarm) {
+					if (recentItem.hours == this.state.timeSet.hours &&
+						recentItem.minutes == this.state.timeSet.minutes &&
+						recentItem.seconds == this.state.timeSet.seconds)
+						return;
 				}
-			},
-			'state.settings.fontColor': {
-				handler: function () {
-					ui.setForegroundColor(this.$refs.timer, this.state.settings.fontColor);
+				let index = this.state.recentAlarm.length;
+				if (index > 2) {
+					this.state.recentAlarm.shift();
+					index = 2;
 				}
-			},
-			'state.settings.backgroundColor': {
-				handler: function () {
-					document.body.style.backgroundImage = "";
-					ui.setBackgroundColor(document.body, this.state.settings.backgroundColor);
-				}
+				let time = {
+					hours: this.$options.filters.addZero(this.state.timeSet.hours),
+					minutes: this.$options.filters.addZero(this.state.timeSet.minutes),
+					seconds: this.$options.filters.addZero(this.state.timeSet.seconds)
+				} 
+				this.$set(this.state.recent, index, time);
 			}
 		},
 
 		mounted: function() {
-			tools.copyObjectProperties(this.state.timeSet, this.time);
-			tools.copyObjectProperties(this.state.timeRestartAfter, this.timeToRestart);
-
 			ui.setForegroundColor(this.$refs.timer, this.state.settings.fontColor);
 			ui.setBackgroundColor(document.body, this.state.settings.backgroundColor);
 			ui.setFontSize(this.$refs.timer, this.state.settings.fontSize);
 			ui.centerElementVertically(this.$el);
-
 			sound.initSound();
 
+			this.interval = timer.createClock(this.time, this.state.timerAlarm, this.alarm);
+			this.state.timerAlarm.enabled = true;
+
 			window.addEventListener('resize', () => ui.centerElementVertically(this.$el));
-			timer.createClock(this.time, this.state.timerAlarm, this.alarm);
 		}
 	}
 </script>
