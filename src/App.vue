@@ -60,6 +60,10 @@
 		mounted: function() {
 			cookie.initCookie();
 			this.setupFromCookie();
+			// document.body.style.backgroundSize = "100% 100%";
+			// document.body.style.backgroundAttachment = "fixed";
+			// document.body.style.backgroundImage = 
+			// 	"url(" + require("./assets/mountains.jpg") +")"
 		}
 	}
 </script>

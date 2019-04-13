@@ -15,7 +15,6 @@
 					 id="inputState" 
 					 class="form-control">
 					<option v-for="i in 24" :value="i - 1"> {{ i - 1 | formatTimer(state.settings.is24hours) }} </option>
-					<!-- <option v&#45;for="i in 12" :value="i"> {{ i + " PM" }} </option> -->
 				</select>
 				<small>Hour</small>
 			</div>
@@ -281,6 +280,9 @@
 }
 .dot-gray {
 	background-color: gray;
+}
+.transparent {
+	opacity: 0.5;
 }
 #settings {
 	background-color: rgba(255,255,255,0.9);

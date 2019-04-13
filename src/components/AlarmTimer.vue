@@ -8,13 +8,21 @@
 				PM
 			</small>
 			<div style="font-size: 0.5em; font-weight: normal">
-				<div class="timer-alarm">
-					Alarm 
-				</div>
+				<!-- <div class="timer&#45;alarm"> -->
+				<!-- 	Alarm  -->
+				<!-- </div> -->
 				<span>
-					{{ state.timerAlarm.hours | formatTimer(state.settings.is24hours) | addZero }} : 
-					{{ state.timerAlarm.minutes | addZero }} : 
-					{{ state.timerAlarm.seconds | addZero }}</span>
+					ALARM 
+					<transition name="fade" mode="out-in">
+						<span key="alarm-on" v-if="state.alarmActive">ON</span>
+						<span key="alarm-off" v-else>OFF</span>
+					</transition>
+					<span class="ml-5">
+						{{ state.timerAlarm.hours | formatTimer(state.settings.is24hours) | addZero }} : 
+						{{ state.timerAlarm.minutes | addZero }} : 
+						{{ state.timerAlarm.seconds | addZero }}
+					</span>
+				</span>
 				<small v-if="!state.settings.is24hours">
 					PM
 				</small>
@@ -27,7 +35,7 @@
 				 class="btn btn-secondary active mt-4 d-flex" 
 				 :class="{ 'btn-success': state.alarmActive }"
 				 @click.prevent="state.alarmActive = !state.alarmActive">
-				 	<img src="../assets/power-off-solid.svg" alt="" width="20">
+				 		<img src="../assets/power-off-solid.svg" alt="" width="20">
 			</button>
 			<button 
 				 type="button" 
@@ -85,8 +93,10 @@
 
 		methods: {
 			alarm() {
-				sound.play(this.state.settings.soundIndex, this.state.settings.soundRepeat);
-				$('#alarmModal').modal('show');
+				if (state.alarmActive) {
+					sound.play(this.state.settings.soundIndex, this.state.settings.soundRepeat);
+					$('#alarmModal').modal('show');
+				}
 			},
 			
 			stopAlarm() {
@@ -139,9 +149,15 @@
 @import url('https://fonts.googleapis.com/css?family=Aldrich');
 @font-face { font-family: Digital; src: url('../assets/LiquidCrystal-Bold.otf'); } 
 
+.btn-green-light {
+	background-color: greenyellow !important;
+	border-color: palegreen !important;
+}
+
 .timer {
 	font-weight: bold;
 	font-family: 'Aldrich', sans-serif;
+	text-shadow: 2px 3px 4px rgba(71, 71, 71, 0.5)
 	/* font-family: 'Digital' */
 }
 .timer-alarm {
