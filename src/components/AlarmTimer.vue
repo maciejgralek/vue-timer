@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="TimerContainer">
 		<div ref="timer" class="timer text-center" >
 			{{ time.hours | formatTimer(state.settings.is24hours) | addZero }} : 
 			{{ time.minutes | addZero }} : 
@@ -18,9 +18,9 @@
 						<span key="alarm-off" v-else>OFF</span>
 					</transition>
 					<span class="ml-5">
-						{{ state.timerAlarm.hours | formatTimer(state.settings.is24hours) | addZero }} : 
-						{{ state.timerAlarm.minutes | addZero }} : 
-						{{ state.timerAlarm.seconds | addZero }}
+						{{ state.timeAlarm.hours | formatTimer(state.settings.is24hours) | addZero }} : 
+						{{ state.timeAlarm.minutes | addZero }} : 
+						{{ state.timeAlarm.seconds | addZero }}
 					</span>
 				</span>
 				<small v-if="!state.settings.is24hours">
@@ -43,11 +43,16 @@
 				 @click.prevent="state.showSettings = !state.showSettings">
 				Settings
 			</button>
+			<!-- <button  -->
+			<!-- 	 type="button"  -->
+			<!-- 	 class="btn btn&#45;secondary mt&#45;4"  -->
+			<!-- 	 @click.prevent="alarm"> -->
+			<!-- 	Settings -->
+			<!-- </button> -->
 			</div>
 		</div>
 
 		<alarm-modal 
-				 :time="timeToRestart"
 				 id="alarmModal" 
 				 @pause-sound="stopAlarm" />
 
@@ -85,23 +90,31 @@
 					minutes: 0,
 					seconds: 0,
 				},
+				
 				interval: null,
 				intervalRestart: null,
-				state: store.state
+				state: store.state,
+				snoozeCounter: 0
 			}
 		},
 
 		methods: {
 			alarm() {
-				if (state.alarmActive) {
+				if (this.state.alarmActive) {
 					sound.play(this.state.settings.soundIndex, this.state.settings.soundRepeat);
 					$('#alarmModal').modal('show');
+					if (this.state.settings.snooze && this.snoozeCounter) {
+						setTimeout(() => {
+							this.snoozeCounter -= 1;
+							this.alarm();
+						}, this.state.settings.snoozeMinutes * 60 * 1000)
+					}
 				}
 			},
 			
 			stopAlarm() {
 				sound.pause(this.state.settings.soundIndex);
-				this.state.timerAlarm.enabled = false;
+				this.state.timeSet.enabled = false;
 			},
 
 			pauseSound() {
@@ -129,6 +142,14 @@
 			}
 		},
 
+		watch: {
+			'state.settings.snoozeRepeat':{
+				handler: function () {
+					this.snoozeCounter = this.state.settings.snoozeRepeat;
+				}
+			}
+		},
+		
 		mounted: function() {
 			ui.setForegroundColor(this.$refs.timer, this.state.settings.fontColor);
 			ui.setBackgroundColor(document.body, this.state.settings.backgroundColor);
@@ -136,8 +157,8 @@
 			ui.centerElementVertically(this.$el);
 			sound.initSound();
 
-			this.interval = timer.createClock(this.time, this.state.timerAlarm, this.alarm);
-			this.state.timerAlarm.enabled = true;
+			this.interval = timer.createClock(this.time, this.state.timeAlarm, this.alarm);
+			this.state.timeSet.enabled = true;
 
 			window.addEventListener('resize', () => ui.centerElementVertically(this.$el));
 		}
@@ -148,20 +169,4 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 @import url('https://fonts.googleapis.com/css?family=Aldrich');
 @font-face { font-family: Digital; src: url('../assets/LiquidCrystal-Bold.otf'); } 
-
-.btn-green-light {
-	background-color: greenyellow !important;
-	border-color: palegreen !important;
-}
-
-.timer {
-	font-weight: bold;
-	font-family: 'Aldrich', sans-serif;
-	text-shadow: 2px 3px 4px rgba(71, 71, 71, 0.5)
-	/* font-family: 'Digital' */
-}
-.timer-alarm {
-	font-family: 'Arial', sans-serif;
-	/* font-family: 'Digital' */
-}
 </style>

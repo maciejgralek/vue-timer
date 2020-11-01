@@ -22,6 +22,13 @@
 						class="btn btn-secondary" 
 						data-dismiss="modal" 
 						@click="$emit('pause-sound')">
+						Restart
+					</button>
+					<button 
+						type="button" 
+						class="btn btn-secondary" 
+						data-dismiss="modal" 
+						@click="$emit('pause-sound')">
 						Close
 					</button>
 				</div>
@@ -60,18 +67,10 @@
 			}
 		},
 
-		computed: {
-
-		},
-
-		methods: {
-
-		},
-
 		watch: {
 			'state.timeRestartAfter':{
 				handler: function () {
-					tools.copyObjectProperties(this.state.timeRestartAfter, this.time);
+					// tools.copyObjectProperties(this.state.timeRestartAfter, this.time);
 				},
 				deep: true
 			}
@@ -87,4 +86,9 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 @import url('https://fonts.googleapis.com/css?family=Aldrich');
 @font-face { font-family: Digital; src: url('../assets/LiquidCrystal-Bold.otf'); } 
+
+/* .timer { */
+/* 	font-weight: bold; */
+/* 	font-family: 'Aldrich', sans-serif; */
+/* } */
 </style>

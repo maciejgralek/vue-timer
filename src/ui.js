@@ -14,5 +14,6 @@ export const ui = {
 	centerElementVertically(el) {
 				el.style.marginTop = (document.documentElement.clientHeight/2 - 
 					el.clientHeight/2)+"px"
+		console.log(document.documentElement.clientWidth);
 	}
 }

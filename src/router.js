@@ -19,5 +19,10 @@ export default new Router({
       name: 'alarm-container',
       component: AlarmContainer
     },
+    {
+      path: '/',
+      name: 'default',
+      component: AlarmContainer
+    },
   ]
 })

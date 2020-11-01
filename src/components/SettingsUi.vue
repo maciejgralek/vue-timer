@@ -26,6 +26,7 @@
 						<span data-color="black" class="dot dot-dark mx-1"></span>
 						<span data-color="white" class="dot dot-light mx-1"></span>
 						<span data-color="gray" class="dot dot-gray mx-1"></span>
+						<!-- <span data&#45;color="gray" class="dot dot&#45;image mx&#45;1"></span> -->
 					</div>
 				</div>
 				</transition>

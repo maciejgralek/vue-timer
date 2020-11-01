@@ -4,23 +4,23 @@
 		<!-- row time -->
 
 		<div class="form-group row">
-			<div class="col-3">
+			<div class="col-sm-3">
 				<label for="inputState" class="col-form-label">
 					Alarm
 				</label>
 			</div>
-			<div class="col">
+			<div class="col-sm">
 				<select 
-					 v-model="state.timerAlarm.hours" 
+					 v-model="state.timeAlarm.hours" 
 					 id="inputState" 
 					 class="form-control">
 					<option v-for="i in 24" :value="i - 1"> {{ i - 1 | formatTimer(state.settings.is24hours) }} </option>
 				</select>
 				<small>Hour</small>
 			</div>
-			<div class="col">
+			<div class="col-sm">
 				<select 
-					 v-model="state.timerAlarm.minutes" 
+					 v-model="state.timeAlarm.minutes" 
 					 id="inputState" 
 					 class="form-control">
 					<option value="0">00</option>
@@ -28,7 +28,7 @@
 				</select>
 				<small>Minute</small>
 			</div>
-			<div class="col-2">
+			<div class="col-sm-2">
 				<div class="custom-control custom-checkbox col-form-label" style="vertical-align: middle">
 					<input 
 						 class="custom-control-input"
@@ -49,28 +49,30 @@
 		<!-- row sound -->
 
 		<div class="form-group row">
-			<div class="col-3">
+			<div class="col-sm-3">
 				<label for="inputState" class="col-form-label">
 					Sound
 				</label>
 			</div>
-			<div class="col-4">
+			<div class="col-sm-4">
 				<select 
 					 id="inputState" 
 					 class="form-control" 
 					 v-model="state.settings.soundIndex">
 					<option v-for="(sound, index) in sounds" :value="index"> {{ sound }} </option>
 				</select>
+				<small>Sound</small>
 			</div>
-			<div class="col">
+			<div class="col-sm">
 				<select class="form-control" v-model="state.settings.soundRepeat">
 					<option value="1"> Play once </option>
 					<option value="3"> Repeat 3 </option>
 					<option value="5"> Repeat 5 </option>
 					<option value="0"> Loop </option>
 				</select>
+				<small>Repeat</small>
 			</div>
-			<div class="col d-flex justify-content-center">
+			<div class="col-sm ">
 				<button class="btn btn-primary" @click="playSound">&#9654; Play</button>
 			</div>
 		</div>
@@ -78,12 +80,12 @@
 		<!-- snooze -->
 
 		<div class="form-group row">
-			<div class="col-3">
+			<div class="col-sm-3">
 				<label for="inputState" class="col-form-label pt-0">
 					Snooze
 				</label>
 			</div>
-			<div class="col-9">
+			<div class="col-sm-9">
 				<div class="custom-control custom-checkbox">
 					<input 
 						 class="custom-control-input" 
@@ -99,19 +101,26 @@
 
 				<transition name="fade">
 				<div class="row mt-3" v-if="state.settings.snooze">
-					<div class="col-6">
+					<div class="col-sm-6">
 						<select 
 							 v-model="state.settings.snoozeMinutes" 
 							 id="inputState" 
 							 class="form-control">
-							<option value="0" selected>00</option>
-							<option v-for="i in 59" :value="i"> {{ i | addZero }} </option>
+							<!-- <option value="0" selected>00</option> -->
+							<!-- <option v&#45;for="i in 59" :value="i"> {{ i | addZero }} </option> -->
+							<option value="3" selected>3 minutes</option>
+							<option value="5" selected>5 minutes</option>
+							<option value="10" selected>10 minutes</option>
+							<option value="15" selected>15 minutes</option>
+							<option value="20" selected>15 minutes</option>
+							<option value="25" selected>15 minutes</option>
+							<option value="30" selected>30 minutes</option>
 						</select>
 						<small>Minutes</small>
 					</div>
-					<div class="col-6">
+					<div class="col-sm-6">
 						<select 
-							 v-model="state.timeRestartAfter.seconds" 
+							 v-model="state.settings.snoozeRepeat" 
 							 id="inputState" 
 							 class="form-control">
 							<option value="1" selected>1 time</option>
@@ -130,12 +139,12 @@
 		<!-- restart after -->
 
 		<div class="form-group row">
-			<div class="col-3">
+			<div class="col-sm-3">
 				<label>
 					Recently used
 				</label>
 			</div>
-			<div class="col-9">
+			<div class="col-sm-9">
 				<ul class="recent">
 					<li><a href="">30 : 00</a></li>
 					<li><a href="">45 : 00</a></li>

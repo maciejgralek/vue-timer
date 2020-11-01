@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="timerContainer">
 		<div ref="timer" class="timer text-center">
 			<span v-if="time.hours"> {{ time.hours | addZero }} : </span> 
 			{{ time.minutes | addZero }} : {{ time.seconds | addZero }}
@@ -25,16 +25,16 @@
 			</button>
 		</div>
 
-		<alarm-modal 
+		<alarm-timer-modal 
 			:time="timeToRestart" 
-			id="alarmModal" 
-			@pause-sound="stopTimer" />
+			id="alarmTimerModal" 
+			@pause-sound="modalClose" />
 
 	</div>
 </template>
 
 <script>
-	import AlarmModal from './AlarmModal.vue';
+	import AlarmTimerModal from './AlarmTimerModal.vue';
 	import { mixin } from '../mixin.js'
 	import { store } from '../store.js'
 
@@ -48,7 +48,7 @@
 		mixins: [mixin],
 
 		components: {
-			AlarmModal
+			AlarmTimerModal
 		},
 
 		data() {
@@ -84,7 +84,7 @@
 
 			alarm() {
 				sound.play(this.state.settings.soundIndex, this.state.settings.soundRepeat);
-				$('#alarmModal').modal('show');
+				$('#alarmTimerModal').modal('show');
 				if (this.state.settings.onZeroAction == 0) {
 					this.stopTimer();
 				}
@@ -108,6 +108,11 @@
 			resetTimer() {
 				this.stopTimer();
 				tools.copyObjectProperties(this.state.timeSet, this.time);
+			},
+
+			modalClose() {
+				this.pauseSound();
+				this.stopTimer();
 			},
 
 			pauseSound() {
@@ -161,7 +166,7 @@
 
 			ui.setForegroundColor(this.$refs.timer, this.state.settings.fontColor);
 			ui.setBackgroundColor(document.body, this.state.settings.backgroundColor);
-			ui.setFontSize(this.$refs.timer, this.state.settings.fontSize);
+			ui.setFontSize(this.$el, this.state.settings.fontSize);
 			ui.centerElementVertically(this.$el);
 
 			sound.initSound();
@@ -176,9 +181,33 @@
 @import url('https://fonts.googleapis.com/css?family=Aldrich');
 @font-face { font-family: Digital; src: url('../assets/LiquidCrystal-Bold.otf'); } 
 
+/* .timerContainer { */
+/* 	font-size: 80px; */
+/* }	 */
 .timer {
 	font-weight: bold;
 	font-family: 'Aldrich', sans-serif;
-	/* font-family: 'Digital' */
 }
+@media screen and (min-width: 300px) {
+	.timer {
+		font-weight: bold;
+		font-family: 'Aldrich', sans-serif;
+		font-size: 0.5em !important;
+	}
+}
+@media screen and (min-width: 400px) {
+	.timer {
+		font-weight: bold;
+		font-family: 'Aldrich', sans-serif;
+		font-size: 0.7em !important;
+	}
+}
+@media screen and (min-width: 700px) {
+	.timer {
+		font-weight: bold;
+		font-family: 'Aldrich', sans-serif;
+		font-size: 1em !important;
+	}
+}
+
 </style>

@@ -12,7 +12,7 @@
 			</div>
 
 			<div class="row mt-4 justify-content-center">
-				<div class="col-6">
+				<div class="col-lg-6">
 					<div class="d-flex align-items-center justify-content-center">
 						<transition name="fade">
 						<settings-alarm v-show="state.showSettings" class="w-100"></settings-alarm>

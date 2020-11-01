@@ -4,7 +4,8 @@ export const mixin = {
 	watch: {
 		'state.settings.fontSize': {
 			handler: function () {
-				ui.setFontSize(this.$refs.timer, this.state.settings.fontSize);
+				ui.setFontSize(this.$el, this.state.settings.fontSize);
+				// ui.setFontSize(this.$refs.timer, this.state.settings.fontSize);
 				ui.centerElementVertically(this.$el);
 			}
 		},

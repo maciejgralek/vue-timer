@@ -4,12 +4,12 @@
 		<!-- row time -->
 
 		<div class="form-group row">
-			<div class="col-3">
+			<div class="col-sm-3">
 				<label for="inputState" class="col-form-label">
 					Timer
 				</label>
 			</div>
-			<div class="col">
+			<div class="col-sm">
 				<select 
 					 v-model="state.timeSet.hours" 
 					 id="inputState" 
@@ -19,7 +19,7 @@
 				</select>
 				<small>Hours</small>
 			</div>
-			<div class="col">
+			<div class="col-sm">
 				<select 
 					 v-model="state.timeSet.minutes" 
 					 id="inputState" 
@@ -29,7 +29,7 @@
 				</select>
 				<small>Minutes</small>
 			</div>
-			<div class="col">
+			<div class="col-sm">
 				<select 
 					 v-model="state.timeSet.seconds" 
 					 id="inputState" 
@@ -46,12 +46,12 @@
 		<!-- row sound -->
 
 		<div class="form-group row">
-			<div class="col-3">
+			<div class="col-sm-3">
 				<label for="inputState" class="col-form-label">
 					Sound
 				</label>
 			</div>
-			<div class="col-4">
+			<div class="col-sm-4">
 				<select 
 					 id="inputState" 
 					 class="form-control" 
@@ -59,7 +59,7 @@
 					<option v-for="(sound, index) in sounds" :value="index"> {{ sound }} </option>
 				</select>
 			</div>
-			<div class="col">
+			<div class="col-sm">
 				<select class="form-control" v-model="state.settings.soundRepeat">
 					<option value="1"> Play once </option>
 					<option value="3"> Repeat 3 </option>
@@ -67,7 +67,7 @@
 					<option value="0"> Loop </option>
 				</select>
 			</div>
-			<div class="col d-flex justify-content-center">
+			<div class="col-sm d-flex justify-content-center">
 				<button class="btn btn-primary" @click="playSound">&#9654; Play</button>
 			</div>
 		</div>
@@ -75,12 +75,12 @@
 		<!-- row on zero -->
 
 		<div class="form-group row">
-			<div class="col-3">
+			<div class="col-sm-3">
 				<label for="inputState" class="col-form-label pt-0">
 					On zero
 				</label>
 			</div>
-			<div class="col-9">
+			<div class="col-sm-9">
 				<div class="custom-control custom-radio">
 					<input 
 						 class="custom-control-input" 
@@ -119,7 +119,7 @@
 
 				<transition name="fade">
 				<div class="row mt-3" v-if="state.settings.onZeroAction == 'restart2'">
-					<div class="col">
+					<div class="col-sm">
 						<select 
 							 v-model="state.timeRestartAfter.hours" 
 							 id="inputState" 
@@ -129,7 +129,7 @@
 						</select>
 						<small>Hours</small>
 					</div>
-					<div class="col">
+					<div class="col-sm">
 						<select 
 							 v-model="state.timeRestartAfter.minutes" 
 							 id="inputState" 
@@ -139,7 +139,7 @@
 						</select>
 						<small>Minutes</small>
 					</div>
-					<div class="col">
+					<div class="col-sm">
 						<select 
 							 v-model="state.timeRestartAfter.seconds" 
 							 id="inputState" 
@@ -157,12 +157,12 @@
 		<!-- recent -->
 
 		<div class="form-group row">
-			<div class="col-3">
+			<div class="col-sm-3">
 				<label>
 					Recently used
 				</label>
 			</div>
-			<div class="col-9">
+			<div class="col-sm-9">
 				<ul class="recent">
 					<li v-for="(time, index) in state.recent">
 						<a href="" @click.prevent="selectRecent(index)"> 
@@ -307,6 +307,11 @@
 }
 .dot-gray {
 	background-color: gray;
+}
+.dot-image {
+	background: url("../assets/mountains-thumbnail.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 #settings {
 	background-color: rgba(255,255,255,0.9);

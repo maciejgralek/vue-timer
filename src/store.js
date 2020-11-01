@@ -2,7 +2,7 @@ export const store = {
 	debug: false,
 	config: {
 		fontSizeMin: 80,
-		fontSizeMax: 210,
+		fontSizeMax: 200,
 		sounds: ["Ring", "Notification uprising"]
 	},
 	state: {
@@ -14,6 +14,7 @@ export const store = {
 			is24hours: false,
 			snooze: false,
 			snoozeMinutes: 5,
+			snoozeRepeat: 2,
 			fontSize: 120,
 			fontColor: "black",
 			backgroundColor: "light",
@@ -27,11 +28,10 @@ export const store = {
 			minutes: 30,
 			seconds: 0
 		},
-		timerAlarm: {
+		timeAlarm: {
 			hours: 2,
 			minutes: 30,
 			seconds: 0,
-			enabled: false
 		},
 		timeRestartAfter: {
 			hours: 0,

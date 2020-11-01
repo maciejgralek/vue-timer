@@ -41,7 +41,7 @@
 					let cookieData = JSON.parse(cookie.getCookie());
 					tools.copyObjectProperties(cookieData.timeSet, this.state.timeSet)
 					tools.copyObjectProperties(cookieData.timeRestartAfter, this.state.timeRestartAfter)
-					tools.copyObjectProperties(cookieData.timerAlarm, this.state.timerAlarm)
+					tools.copyObjectProperties(cookieData.timeAlarm, this.state.timeAlarm)
 					this.state.settings.soundIndex = cookieData.settings.soundIndex;
 					this.state.settings.onZeroAction = cookieData.settings.onZeroAction;
 					this.state.settings.fontColor = cookieData.settings.fontColor;
@@ -49,6 +49,10 @@
 					this.state.settings.fontSize = cookieData.settings.fontSize;
 					this.state.settings.soundRepeat = cookieData.settings.soundRepeat;
 					this.state.settings.is24hours = cookieData.settings.is24hours;
+					this.state.settings.snooze = cookieData.settings.snooze;
+					this.state.settings.snoozeMinutes = cookieData.settings.snoozeMinutes;
+					this.state.settings.snoozeRepeat = cookieData.settings.snoozeRepeat;
+					this.state.alarmActive = cookieData.alarmActive;
 					if (cookieData.recent) {
 						for (let recentItem = 0; recentItem < cookieData.recent.length; recentItem++)
 							this.$set(this.state.recent, recentItem, cookieData.recent[recentItem]);
