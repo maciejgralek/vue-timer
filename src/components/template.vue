@@ -1,38 +1,38 @@
 <template>
-	<div>
+  <div>
 
-	</div>
+  </div>
 </template>
 
 <script>
-	import { store } from '../store.js'
-	import { mixin } from '../mixin.js';
+  import { store } from '../store.js'
+  import { mixin } from '../mixin.js';
 
-	export default {
-		
-		mixins: [mixin],
-		components: {
+  export default {
+    
+    mixins: [mixin],
+    components: {
 
-		},
-		
-		data: function() {
-			return {
+    },
+    
+    data: function() {
+      return {
 
-			}
-		},
-		filters: {
+      }
+    },
+    filters: {
 
-		},
-		computed: {
+    },
+    computed: {
 
-		},
-		methods: {
+    },
+    methods: {
 
-		},
-		mounted: function() {
+    },
+    mounted: function() {
 
-		}
-	}
+    }
+  }
 </script>
 
 <style>

@@ -1,19 +1,19 @@
 export const ui = {
-	setForegroundColor(el, color) {
-		el.style.color = color;
-	},
+  setForegroundColor(el, color) {
+    el.style.color = color;
+  },
 
-	setBackgroundColor(el, color) {
-		el.style.backgroundColor = color;
-	},
+  setBackgroundColor(el, color) {
+    el.style.backgroundColor = color;
+  },
 
-	setFontSize(el, size) {
-			el.style.fontSize = size+"px";
-	},
+  setFontSize(el, size) {
+      el.style.fontSize = size+"px";
+  },
 
-	centerElementVertically(el) {
-				el.style.marginTop = (document.documentElement.clientHeight/2 - 
-					el.clientHeight/2)+"px"
-		console.log(document.documentElement.clientWidth);
-	}
+  centerElementVertically(el) {
+        el.style.marginTop = (document.documentElement.clientHeight/2 - 
+          el.clientHeight/2)+"px"
+    console.log(document.documentElement.clientWidth);
+  }
 }

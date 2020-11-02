@@ -14,22 +14,22 @@ Vue.prototype.$http = axios;
 Vue.prototype.$cookie = jscookie;
 
 Vue.mixin({
-	data: function () {
-		return {
-			// store,
-			state: store.state
-		};
-	},
-	watch: {
-		'store.debug': function(oldValue, newValue) {
-			console.log("debug ", newValue);
-			if (this.$el) {
-				newValue ? 
-					this.$el.className += " border" :
-					this.$el.className -= " border";
-			}
-		}
-	},
+  data: function () {
+    return {
+      // store,
+      state: store.state
+    };
+  },
+  watch: {
+    'store.debug': function(oldValue, newValue) {
+      console.log("debug ", newValue);
+      if (this.$el) {
+        newValue ? 
+          this.$el.className += " border" :
+          this.$el.className -= " border";
+      }
+    }
+  },
 });
 
 new Vue({
